@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using CsvHelper;
+// using CsvHelper;
 
 
 namespace FirstBankOfSuncoast
@@ -112,7 +112,7 @@ namespace FirstBankOfSuncoast
                         withdraw.Amount = PromptForInteger("How much would you like to withdraw today? ");
                         transactions.Add(withdraw);
 
-                        if (withdraw.Amount < 0)
+                        if (withdraw.Amount <= 0)
                         {
                             Console.WriteLine($"Unable to make this withdraw.");
                         }
@@ -128,7 +128,7 @@ namespace FirstBankOfSuncoast
                         withdraw.Amount = PromptForInteger("How much would you like to withdraw today? ");
                         transactions.Add(withdraw);
 
-                        if (withdraw.Amount < 0)
+                        if (withdraw.Amount <= 0)
                         {
                             Console.WriteLine($"Unable to make this withdraw.");
                         }
@@ -183,10 +183,10 @@ namespace FirstBankOfSuncoast
                     }
                 }
             }
-            var fileWriter = new StreamWriter("bank.csv");
-            var csvWriter = new CsvWriter(fileWriter, CultureInfo.InvariantCulture);
-            csvWriter.WriteRecords(transactions);
-            fileWriter.Close();
+            // var fileWriter = new StreamWriter("bank.csv");
+            // var csvWriter = new CsvWriter(fileWriter, CultureInfo.InvariantCulture);
+            // csvWriter.WriteRecords(transactions);
+            // fileWriter.Close();
         }
 
     }
