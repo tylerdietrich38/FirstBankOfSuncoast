@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-// using CsvHelper;
-
+using CsvHelper;
+using CsvHelper.Configuration;
 
 namespace FirstBankOfSuncoast
 {
@@ -55,7 +55,20 @@ namespace FirstBankOfSuncoast
 
         static void Main(string[] args)
         {
-            var transactions = new List<Transaction>();
+            var suncoastBank = new List<Transaction>();
+
+            if (File.Exists("suncoastBank.csv"))
+            {
+                var fileReader = new StreamReader("suncoastBank.csv");
+
+                var csvReader = new CsvReader(fileReader, CultureInfo.InvariantCulture);
+
+                var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+                {
+                    HasHeaderRecord = true,
+                };
+                suncoastBank = csvReader.GetRecords<Transaction>().ToList();
+            }
 
             DisplayGreeting();
 
@@ -63,6 +76,7 @@ namespace FirstBankOfSuncoast
 
             while (keepGoing)
             {
+                var transactions = new List<Transaction>();
                 Console.WriteLine();
                 Console.Write("Do you want to (D)eposit or (W)ithdraw or view (B)alance or (T)ransaction list or (Q)uit . ");
 
@@ -114,6 +128,12 @@ namespace FirstBankOfSuncoast
 
                         if (withdraw.Amount <= 0)
                         {
+                            var newDeposits = transactions.Where(checking => checking.AccountType == "Checking").Where(checking => checking.TransactionType == "Deposit").Sum(checking => checking.Amount);
+
+                            var newWithdraw = transactions.Where(checking => checking.AccountType == "Checking").Where(checking => checking.TransactionType == "Withdraw").Sum(checking => checking.Amount);
+
+
+                            var newBalance = $"{newDeposits - newWithdraw}";
                             Console.WriteLine($"Unable to make this withdraw.");
                         }
                         else
@@ -130,6 +150,13 @@ namespace FirstBankOfSuncoast
 
                         if (withdraw.Amount <= 0)
                         {
+                            var oldDeposits = transactions.Where(savings => savings.AccountType == "Savings").Where(savings => savings.TransactionType == "Deposit").Sum(savings => savings.Amount);
+
+                            var oldWithdraw = transactions.Where(savings => savings.AccountType == "Savings").Where(savings => savings.TransactionType == "Withdraw").Sum(savings => savings.Amount);
+
+
+                            var oldBalance = $"{oldDeposits - oldWithdraw}";
+
                             Console.WriteLine($"Unable to make this withdraw.");
                         }
                         else
@@ -183,10 +210,10 @@ namespace FirstBankOfSuncoast
                     }
                 }
             }
-            // var fileWriter = new StreamWriter("bank.csv");
-            // var csvWriter = new CsvWriter(fileWriter, CultureInfo.InvariantCulture);
-            // csvWriter.WriteRecords(transactions);
-            // fileWriter.Close();
+            var fileWriter = new StreamWriter("bank.csv");
+            var csvWriter = new CsvWriter(fileWriter, CultureInfo.InvariantCulture);
+            csvWriter.WriteRecords(suncoastBank);
+            fileWriter.Close();
         }
 
     }
