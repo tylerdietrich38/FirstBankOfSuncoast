@@ -72,24 +72,6 @@ namespace FirstBankOfSuncoast
                 {
                     var deposit = new Transaction();
 
-
-                    // var newDeposit = PromptForString("Which account are you wanting to deposit too? ");
-                    // Transaction toDeposit = transactions.FirstOrDefault(deposit => deposit.AccountType == newDeposit);
-
-                    // if (toDeposit == null)
-                    // {
-                    //     Console.WriteLine("Can not deposit that amount. ");
-                    // }
-                    // else
-                    // {
-                    //     var oneDeposit = PromptForInteger($"What amount are you depositing today?");
-
-                    // }
-
-
-                    // Console.WriteLine();
-                    // Console.Write("Would you like to deposit to you (C)hecking or (S)avings account today? ");
-
                     var answer = PromptForString("How much would you like to deposit to your (C)hecking or (S)avings today? ");
 
                     if (answer == "C")
@@ -112,6 +94,7 @@ namespace FirstBankOfSuncoast
                     }
 
                 }
+
                 else if (choice == "W")
                 {
                     var withdraw = new Transaction();
@@ -142,8 +125,8 @@ namespace FirstBankOfSuncoast
 
                     }
 
-
                 }
+
                 else if (choice == "B")
                 {
                     var balance = new Transaction();
@@ -168,20 +151,10 @@ namespace FirstBankOfSuncoast
 
                         var oldBalance = $"{oldDeposits - oldWithdraw}";
 
-                        Console.WriteLine($"You have ${oldBalance} in your Checking account");
-
+                        Console.WriteLine($"You have ${oldBalance} in your Savings account");
                     }
-
-
-
-
-                    // balance.TransactionType = ("Withdraw");
-                    // balance.AccountType = ("Checking");
-                    // var totalAccountBalance = transactions.Sum(transaction => transaction.Amount);
-
-                    // return totalAccountBalance;
-
                 }
+
                 else if (choice == "T")
                 {
                     foreach (var tranaction in transactions)
