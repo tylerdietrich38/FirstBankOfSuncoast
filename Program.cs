@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using CsvHelper;
+
 
 namespace FirstBankOfSuncoast
 {
@@ -108,7 +112,14 @@ namespace FirstBankOfSuncoast
                         withdraw.Amount = PromptForInteger("How much would you like to withdraw today? ");
                         transactions.Add(withdraw);
 
-                        Console.WriteLine($"You have withdrawled ${withdraw.Amount}!");
+                        if (withdraw.Amount < 0)
+                        {
+                            Console.WriteLine($"Unable to make this withdraw.");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"You have withdrawled ${withdraw.Amount}!");
+                        }
                     }
                     else if (answer == "S")
                     {
@@ -117,7 +128,14 @@ namespace FirstBankOfSuncoast
                         withdraw.Amount = PromptForInteger("How much would you like to withdraw today? ");
                         transactions.Add(withdraw);
 
-                        Console.WriteLine($"You have withdrawled ${withdraw.Amount}!");
+                        if (withdraw.Amount < 0)
+                        {
+                            Console.WriteLine($"Unable to make this withdraw.");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"You have withdrawled ${withdraw.Amount}!");
+                        }
 
                         Console.WriteLine(" ");
 
@@ -136,6 +154,7 @@ namespace FirstBankOfSuncoast
                     if (answer == "C")
                     {
                         var newDeposits = transactions.Where(c => c.AccountType == "Checking").Where(c => c.TransactionType == "Deposit").Sum(c => c.Amount);
+
                         var newWithdraw = transactions.Where(c => c.AccountType == "Checking").Where(c => c.TransactionType == "Withdraw").Sum(c => c.Amount);
 
 
@@ -146,6 +165,7 @@ namespace FirstBankOfSuncoast
                     else if (answer == "S")
                     {
                         var oldDeposits = transactions.Where(s => s.AccountType == "Checking").Where(s => s.TransactionType == "Deposit").Sum(s => s.Amount);
+
                         var oldWithdraw = transactions.Where(s => s.AccountType == "Checking").Where(s => s.TransactionType == "Withdraw").Sum(s => s.Amount);
 
 
@@ -163,6 +183,10 @@ namespace FirstBankOfSuncoast
                     }
                 }
             }
+            var fileWriter = new StreamWriter("bank.csv");
+            var csvWriter = new CsvWriter(fileWriter, CultureInfo.InvariantCulture);
+            csvWriter.WriteRecords(transactions);
+            fileWriter.Close();
         }
 
     }
