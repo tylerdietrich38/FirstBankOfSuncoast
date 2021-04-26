@@ -153,9 +153,9 @@ namespace FirstBankOfSuncoast
 
                     if (answer == "C")
                     {
-                        var newDeposits = transactions.Where(c => c.AccountType == "Checking").Where(c => c.TransactionType == "Deposit").Sum(c => c.Amount);
+                        var newDeposits = transactions.Where(checking => checking.AccountType == "Checking").Where(checking => checking.TransactionType == "Deposit").Sum(checking => checking.Amount);
 
-                        var newWithdraw = transactions.Where(c => c.AccountType == "Checking").Where(c => c.TransactionType == "Withdraw").Sum(c => c.Amount);
+                        var newWithdraw = transactions.Where(checking => checking.AccountType == "Checking").Where(checking => checking.TransactionType == "Withdraw").Sum(checking => checking.Amount);
 
 
                         var newBalance = $"{newDeposits - newWithdraw}";
@@ -164,9 +164,9 @@ namespace FirstBankOfSuncoast
                     }
                     else if (answer == "S")
                     {
-                        var oldDeposits = transactions.Where(s => s.AccountType == "Checking").Where(s => s.TransactionType == "Deposit").Sum(s => s.Amount);
+                        var oldDeposits = transactions.Where(savings => savings.AccountType == "Checking").Where(savings => savings.TransactionType == "Deposit").Sum(savings => savings.Amount);
 
-                        var oldWithdraw = transactions.Where(s => s.AccountType == "Checking").Where(s => s.TransactionType == "Withdraw").Sum(s => s.Amount);
+                        var oldWithdraw = transactions.Where(savings => savings.AccountType == "Checking").Where(savings => savings.TransactionType == "Withdraw").Sum(savings => savings.Amount);
 
 
                         var oldBalance = $"{oldDeposits - oldWithdraw}";
